@@ -38,13 +38,17 @@ export default {
   },
   methods: {
     login() {
+      if(this.numberValidateForm.username==''||this.numberValidateForm.password==''){
+        return this.$message.warning("用户名或密码不能为空")
+      }
       this.$axios
         .post("http://ceshi5.dishait.cn/admin/login", this.numberValidateForm)
         .then((res) => {
           console.log(res);
           if (res.data.data.status == 1) {
             sessionStorage.setItem("token", res.data.data.token);
-            this.$router.push("/abnout");
+            this.$router.push("/about");
+            this.$store.state.name=res.data.data.username
             this.$message.success("登陆成功");
           } else {
             this.$message.erroe("登陆失败");

@@ -29,7 +29,19 @@ const routes = [
      }else{
        next('/')
      }
-    }
+    },
+    children:[
+     {
+       path:"index",
+       name:"首页",
+       component:()=>import('../components/index.vue')
+     },
+     {
+       path:"shop",
+       name:"商品",
+       component:()=>import('../components/shop.vue')
+     }
+    ]
   }
 ]
 
