@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+
 
 Vue.use(VueRouter)
 
@@ -8,15 +8,28 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component:()=> import('../views/Home.vue'),
+    // 存在token值不能访问登录页
+    beforeEnter:(to,from,next)=>{
+      if(sessionStorage.getItem("token")){
+        next('/about')
+      }else{
+        next()
+      }
+    }
   },
   {
     path: '/about',
     name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    component: () => import('../views/About.vue'),
+    //没有token值不能访问首页
+    beforeEnter: (to, from, next) => {
+     if(sessionStorage.getItem("token")){
+       next()
+     }else{
+       next('/')
+     }
+    }
   }
 ]
 
